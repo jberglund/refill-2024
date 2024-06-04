@@ -1,0 +1,10 @@
+---
+import { db, Post, Author, eq } from 'astro:db';
+const {postId = '' } = Astro.params;
+const post = await db.select()
+  .from(Post)
+  .where(eq(Post.postId, postId))[0];
+---
+
+<h2>Post</h2>
+<p>{post.}</p>

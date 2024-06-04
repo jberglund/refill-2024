@@ -1,0 +1,21 @@
+---
+import { db, Post, Author, eq } from 'astro:db';
+
+const posts = await db.select()
+  .from(Post)
+  .innerJoin(Author, eq(Post.authorId, Author.authorId));
+---
+
+<h2>Post</h2>
+
+{
+  posts.map(({Post: { authorId, likes, text, published, postId }, Author: {name}}) => (
+    <a href={`/posts/${postId}`}>
+    <article>
+      <p>Author: {name}</p>
+      <p>{text}</p>
+      <div>{likes}</div>
+    </article>
+    </a>
+  ))
+}
