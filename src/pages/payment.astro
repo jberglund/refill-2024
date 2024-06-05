@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+---
+
+<Layout title="Payment">
+  <form action={Astro.url.pathname} method="POST">
+    <div>Du har 2415 kr</div>
+    <fieldset>
+      <label for="receivingAccount"> Til konto </label>
+      <input type="text" name="receivingAccount" id="receivingAccount" />
+      <label for="receivingAccount"> Amount </label>
+      <input type="text" name="amount" id="amount" />
+    </fieldset>
+    <input type="text" name="transactionDescription" />
+    <input type="text" name="message" />
+  </form>
+</Layout>
+
+<style>
+  
+</style>

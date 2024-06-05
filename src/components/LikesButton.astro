@@ -1,0 +1,20 @@
+---
+
+import { db, eq, Post, sql } from "astro:db";
+const { slug } = Astro.props;
+let result = {likes: 0};
+if(Astro.request.method === 'POST'){
+    result = await db
+      .update(Post)
+      .set({ 
+        likes: sql`likes + 1`
+        })
+      .where(
+        eq(Post.slug, slug)).returning({likes: Post.likes})[0]
+}
+
+---
+
+<div>
+  <p>Views: {result.likes}</p>
+</div>

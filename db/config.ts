@@ -10,15 +10,14 @@ const Author = defineTable({
 
 const Post = defineTable({
   columns: {
-    postId: column.number({ primaryKey: true }),
+    slug: column.text({primaryKey: true }),
     authorId: column.number({ references: () => Author.columns.authorId }),
     text: column.text(),
     published: column.date({ default: NOW, optional: true }),
-    likes: column.number({default: 0 }),
-    slug: column.text()
+    likes: column.number({default: 0 })
   },
   indexes: [
-    { on: ["postId", "published", "slug"], unique: true },
+    { on: ["published", "slug"], unique: true },
   ]
 });
 
