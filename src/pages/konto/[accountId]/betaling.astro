@@ -1,0 +1,98 @@
+---
+import { z } from "astro/zod";
+import Layout from "../../../layouts/Layout.astro";
+
+const schema = z.object({
+  receivingAccount: z
+    .string()
+    .length(11, "Kontonummer må være 11 tegn")
+    .regex(/^\d+$/, "Kontonummer kan kun inneholde tall"),
+  amount: z.coerce
+    .number()
+    .min(1, "Beløp må være større enn 0")
+    .max(2415, "Du må bygge flere pyloner 💎"),
+  message: z
+    .string()
+    .regex(/\p{Emoji_Presentation}/gu, "Bare lov med emojis 🤪")
+    .optional(),
+});
+
+const fd =
+  Astro.request.method === "POST"
+    ? await Astro.request.formData()
+    : new FormData();
+
+const validation = schema.safeParse({
+  receivingAccount: fd.get("receivingAccount"),
+  amount: fd.get("amount"),
+  message: fd.get("message"),
+});
+
+const values = Object.fromEntries(fd) as {
+  receivingAccount: string;
+  amount: string;
+  message: string;
+};
+
+if (Astro.request.method === "POST" && validation.success) {
+  return Astro.redirect("gjennomfort", 200);
+}
+
+const errors = validation.error.flatten().fieldErrors;
+---
+
+<Layout>
+  <form action={Astro.url.pathname} method="post">
+    <ok-stack gap="s">
+      <h3>Du har 2415 kr</h3>
+      <label for="">
+        <div>Konto</div>
+        <input
+          type="text"
+          value={values.receivingAccount}
+          name="receivingAccount"
+        />
+        {
+          values.receivingAccount && errors.receivingAccount && (
+            <div style="color: red;">
+              {errors.receivingAccount.map((error) => (
+                <div>{error}</div>
+              ))}
+            </div>
+          )
+        }
+      </label>
+
+      <label for="">
+        <div>Beløp</div>
+        <input type="text" value={values.amount} name="amount" />
+        {
+          values.amount && errors.amount && (
+            <div style="color: red;">
+              {errors.amount.map((error) => (
+                <div>{error}</div>
+              ))}
+            </div>
+          )
+        }
+      </label>
+
+      <label for="">
+        <div>Melding</div>
+        <input type="text" value={values.message} name="message" />
+        {
+          values.message && errors.message && (
+            <div style="color: red;">
+              {errors.message.map((error) => (
+                <div>{error}</div>
+              ))}
+            </div>
+          )
+        }
+      </label>
+    </ok-stack>
+    <button type="submit">Betal</button>
+  </form>
+</Layout>
+
+<style></style>

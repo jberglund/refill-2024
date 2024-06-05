@@ -1,37 +1,36 @@
 ---
 interface Props {
-	title: string;
+  menuDisabled?: boolean;
 }
 
-const { title } = Astro.props;
+const { menuDisabled = true } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<header>
-			<nav>
-				<a href="/form">Form</a>
-				<a href="/payment">payment</a>
-				<a href="/posts">Posts</a>
-			</nav>
-		</header>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/main.css" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Refill 2024</title>
+  </head>
+  <body>
+    {
+      !menuDisabled && (
+        <header>
+          <nav>
+            <a href="/form">Form</a>
+            <a href="/payment">payment</a>
+            <a href="/posts">Posts</a>
+          </nav>
+        </header>
+      )
+    }
+    <main>
+      <slot />
+    </main>
+  </body>
 </html>
-<style is:global>
-	
-	html {
-		font-family: system-ui, sans-serif;
-		background-size: 224px;
-		color: black;
-	}
-</style>
