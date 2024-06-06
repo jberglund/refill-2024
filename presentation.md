@@ -1,5 +1,5 @@
 ---
-theme: "moon"
+theme: "night"
 ---
 
 ## Det var en gång en request, en response (och kanske ett par headers.)
@@ -8,37 +8,48 @@ theme: "moon"
 
 ### Intro
 
-- Jag heter Jacob
-- takeaways
-- full möjligt
+Jag heter Jacob
 
 ---
 
-## Kapitel I: HTTP
+### Takeaways
+
+- Kanske jag lyckas övertyga er om att
+- Att det är fullt möjligt att bygga ting så basic som möjligt.
+
+---
+
+## Kapitel ett: HTTP
 
 Allt är HTTP
 
 ---
 
-### Primitiva
+### Primitivt
 
-- Element som kan göra GET requests: `<script>`, `<link>`, `<img>` med flera.
+- `<script>`, `<link>`, `<img>` med flera.
 - `<a>` och `<form>` är unik.
+- URL required\*
+- Servern ger tillbaka resurser.
 
 ---
 
-### Först en liten rant
+### Först en liten rant !!! Hoppa över???
 
 I våre kära browsers kan man också göra requests på andra sätt.
 happy path, validering, nätverkfel.
 
 ---
 
-## Kapitel II: HTML
+## Kapitel två: HTML
 
-Se här, ett form för att betala pengar till ett annat konto.
+---
+
+#### A wild form appears
 
 `GET /betaling/123124512`
+
+Response:
 
 ```html
 <form action="/123124512/betaling" method="POST">
@@ -54,6 +65,8 @@ Se här, ett form för att betala pengar till ett annat konto.
 
 ## Happy path! Allt går fint
 
+`POST /betaling/123124512`
+
 ```html
 <div>
   <h3>Nice!</h3>
@@ -64,7 +77,7 @@ Se här, ett form för att betala pengar till ett annat konto.
 
 ---
 
-// POST /123124512/betaling
+`POST /betaling/123124512`
 
 ```html
 <form action="/123124512/betaling" method="POST">
@@ -87,10 +100,12 @@ Se här, ett form för att betala pengar till ett annat konto.
 
 ---
 
-- Failar denna POST för att bruker skrev fel?
-- Failar den som följd av att baksystem är nede?
-- Går den bra?
-- Timeout som följd nätverkfel?
+Vad händer när...
+
+- man får valideringfel?
+- requesten failar för att ett baksystem är nede?
+- det går den bra?
+- en request tar för lång tid?
 
 ---
 
@@ -108,11 +123,9 @@ Som bonus så är det möjligt att göra betalningar även om är på hytta. Den
 
 ---
 
-### Kapitel III: 💅✨
+## Kapitel III: 💅✨
 
 Någonting om bättre UX.
-
----
 
 ### The secret sauce
 
@@ -120,9 +133,8 @@ Någonting om bättre UX.
 <form action="/123124512/betaling" method="POST"></form>
 ```
 
-- Går du in på den sidan. Cool. Det fungerar så klart.
-
-- Så länge URLen i en action är rätt och den tar emot formet som förväntat, så spelar det ingen roll vart i appen den ligger.
+- Orelevant vart denna form finnes...
+- ... så länge URLen i en action är rätt och den tar emot formet som förväntat
 
 ---
 
@@ -135,7 +147,6 @@ Någonting om bättre UX.
 - Att forms som "failar" har fortfarande en response med HTML.
 
 - Jag vill inte commita, men jag vill validera. Så, här får du en header.
-- ***
 
 ### För en fetch kan ju också hämta HTML. 🤔
 
