@@ -1,0 +1,39 @@
+---
+import { db, Post, eq, sql } from "astro:db";
+import Layout from "../../layouts/Layout.astro";
+const slug = Astro.params.slug;
+
+let post = {} as typeof Post.$inferSelect;
+
+if (Astro.request.method === "GET") {
+  const res = await db.select().from(Post).where(eq(Post.slug, slug));
+
+  post = res[0];
+}
+
+if (Astro.request.method === "POST") {
+  const res = await db
+    .update(Post)
+    .set({
+      likes: sql`likes + 1`,
+    })
+    .where(eq(Post.slug, slug))
+    .returning();
+  post = res[0];
+}
+---
+
+<Layout>
+  <ok-stack gap="l">
+    <a href="/posts">BACK!</a>
+    <ok-stack gap="s">
+      <h2>{post.slug}</h2>
+      <time>{post.published}</time>
+      <small>{post.likes} likes</small>
+      <form method="POST" action={Astro.url.pathname}>
+        <input type="hidden" name="redirect" value="" />
+        <button>like </button>
+      </form>
+    </ok-stack>
+  </ok-stack>
+</Layout>

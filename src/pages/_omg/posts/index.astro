@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { db, Post, Author, eq } from "astro:db";
+
+const posts = await db
+  .select()
+  .from(Post)
+  .innerJoin(Author, eq(Post.authorId, Author.authorId));
+---
+
+<Layout>
+  <h2>Post</h2>
+  <a href="new">Ny</a>
+  {
+    posts.map(
+      ({
+        Post: { authorId, likes, text, published, slug },
+        Author: { name },
+      }) => (
+        <a class="card" href={`/posts/${slug}`}>
+          <article>
+            <p>Author: {name}</p>
+            <time datetime={published.toISOString()}>
+              {published.toLocaleDateString()}
+            </time>
+
+            <p>{text}</p>
+
+            <div>{likes}</div>
+            <form method="POST" action={`${Astro.url.pathname}/${slug}`}>
+              <input type="hidden" name="redirect" value="" />
+              <button>Like</button>
+            </form>
+          </article>
+        </a>
+      )
+    )
+  }
+</Layout>
+
+<style>
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  article {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+</style>

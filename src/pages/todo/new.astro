@@ -1,0 +1,60 @@
+---
+import { Todo, db, NOW } from "astro:db";
+import Layout from "../../layouts/Layout.astro";
+
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+let todoAdded = null as (typeof Todo.$inferSelect)[];
+
+if (Astro.request.method === "POST") {
+  // parse form data
+  console.log(Astro.request.method);
+  const formData = await Astro.request.formData();
+  const content = formData.get("content");
+  console.log(content);
+  if (typeof content === "string") {
+    // insert form data into the Comment table
+    todoAdded = await db
+      .insert(Todo)
+      .values({
+        text: content,
+        done: false,
+        published: NOW,
+        slug: slugify(content),
+      })
+      .returning();
+    return Astro.redirect(`/todo/${todoAdded[0].slug}`);
+  }
+}
+---
+
+<Layout>
+  <ok-stack style="max-width: 400px; padding: 1rem;" gap="xl">
+    {
+      todoAdded ? (
+        <div>
+          <h2>todo added!</h2>
+          <p>
+            <a href={`/todo/${todoAdded[0].slug}`}>View post</a>
+          </p>
+        </div>
+      ) : (
+        <form action={Astro.url.pathname} method="post">
+          <ok-stack gap="m">
+            <label>Text</label>
+            <input type="text" name="content" />
+
+            <button type="submit">Add!</button>
+          </ok-stack>
+        </form>
+      )
+    }
+    <a href="/..">Tilbake</a>
+  </ok-stack>
+</Layout>

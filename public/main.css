@@ -11,6 +11,13 @@ html {
   font: inherit;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+}
+
 :root {
   --ok-base-root: 1rem;
 

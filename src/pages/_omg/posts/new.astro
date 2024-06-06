@@ -1,0 +1,58 @@
+---
+import { Post, sql, eq, db } from "astro:db";
+import Layout from "../../layouts/Layout.astro";
+
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+let postAdded;
+
+if (Astro.request.method === "POST") {
+  // parse form data
+  const formData = await Astro.request.formData();
+  const author = formData.get("author");
+  const content = formData.get("content");
+  console.log(author, content);
+  if (typeof author === "string" && typeof content === "string") {
+    // insert form data into the Comment table
+    postAdded = await db
+      .insert(Post)
+      .values({
+        text: content,
+        authorId: parseInt(author),
+        slug: slugify(content),
+      })
+      .returning();
+    console.log(postAdded);
+  }
+}
+---
+
+<Layout>
+  {
+    postAdded && (
+      <div>
+        <h2>Post added!</h2>
+        <p>
+          <a href={`/posts/${postAdded[0].slug}`}>View post</a>
+        </p>
+      </div>
+    )
+  }
+
+  <form action={Astro.url.pathname} method="post">
+    <ok-stack gap="m">
+      <label>Message</label>
+      <select name="author" id="">
+        <option value="1">Jacob Berglund</option>
+      </select>
+      <input type="text" name="content" />
+
+      <button>Submit!</button>
+    </ok-stack>
+  </form>
+</Layout>

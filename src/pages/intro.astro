@@ -1,0 +1,97 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="intro" data-scroll-container>
+    <section>
+      <h1>Hej! 👋🏻</h1>
+      <h6>Jag heter Jacob</h6>
+    </section>
+
+    <!--  <section>
+      <h3>Vem är jag?</h3>
+      <ul>
+        <li>10+ år erfarenhet av webb. 👴🏻</li>
+        <li>
+          Jag <i>kan</i> CSS, HTML och SVG.
+        </li>
+        <li>OK+ på JS/TS.</li>
+        <li>...men fortfarande massor att lära 🚧🤓</li>
+      </ul>
+    </section> -->
+
+    <section>
+      <h3>
+        Idag hoppas jag kunna övertyga er om att kanske tänka på HTML först är
+        en legit strategi.
+      </h3>
+    </section>
+
+    <section id="4">
+      <h1>Lite gammaldags kanske.</h1>
+      <h3>
+        Det är fullt möjligt att göra en fungerende app med bara HTML* – det var
+        också möjligt för 20 år sedan med exakt samma teknologi.
+      </h3>
+      <p style="margin-left: auto;"><small>*med en server, så klart</small></p>
+    </section>
+
+    <section>
+      <h3>Först, låt oss start från början</h3>
+      <p>
+        För att hämta ting på webben använder vi HTTP. En request görs av
+        mottagaren, oftast en webbläsare, som i sin tur svarar med en response
+      </p>
+    </section>
+
+    <section>
+      <h3>Det mesta är GETs</h3>
+      <pre>
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/main.css&quot; /&gt;
+        &lt;script type=&quot;module&quot; src=&quot;/main.js&quot;&gt;&lt;/script&gt;
+        &lt;a href=&quot;/a-link&quot;&gt;Hej&lt;/a&gt;
+      </pre>
+    </section>
+
+    <section>
+      <h3>Browsern har andra sätt att göra en GET på</h3>
+      <p>Fetch, content-type application/json, typer</p>
+    </section>
+
+    <section>
+      <h3>
+        Se på dokumentationen, gör en form, försök göra det så säkert som
+        möjligt, få ohanterade errors. 😬
+      </h3>
+    </section>
+  </div>
+
+  <style>
+    .intro {
+      display: grid;
+      height: 100svh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+    }
+    .intro::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .intro::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .intro::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+    section {
+      height: inherit;
+      padding: var(--ok-spacing-xl);
+      scroll-snap-align: center;
+      display: grid;
+      align-content: center;
+    }
+  </style>
+</Layout>

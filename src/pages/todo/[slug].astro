@@ -1,0 +1,21 @@
+---
+import { db, Todo, eq, sql } from "astro:db";
+import Layout from "../../layouts/Layout.astro";
+const slug = Astro.params.slug;
+console.log(slug);
+let todo = {} as typeof Todo.$inferSelect;
+const res = await db.select().from(Todo).where(eq(Todo.slug, slug));
+
+todo = res[0];
+if (Astro.request.method === "GET") {
+}
+---
+
+<Layout>
+  <ok-stack gap="l">
+    <a href="/..">BACK!</a>
+    <ok-stack gap="s">
+      <h2>{todo.slug}</h2>
+    </ok-stack>
+  </ok-stack>
+</Layout>

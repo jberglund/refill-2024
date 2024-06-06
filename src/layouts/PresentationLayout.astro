@@ -6,5 +6,17 @@ import Layout from "./Layout.astro";
 ---
 
 <Layout>
-  <slot />
+  <div class="presentation">
+    <slot />
+  </div>
 </Layout>
+
+<style>
+  .presentation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+  }
+</style>

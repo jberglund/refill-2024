@@ -1,5 +1,78 @@
 ---
+import { db, Todo, Author, eq } from "astro:db";
 import Layout from "../layouts/Layout.astro";
+
+const todo = await db.select().from(Todo);
 ---
 
-<Layout menuDisabled={false}> INDEX! </Layout>
+<Layout>
+  <div class="app">
+    <div class="row">
+      <h2>Todos</h2>
+      <a href="/todo/new" class="button">Ny</a>
+    </div>
+    <ok-stack gap="s">
+      {
+        todo.map(({ slug, published, text }) => (
+          <a class="card" href={`/todo/${slug}`}>
+            <article>
+              <ok-stack horizontal>
+                <ok-stack>
+                  <time class="time" datetime={published.toISOString()}>
+                    {published.toLocaleDateString()}
+                  </time>
+                  <h3>{text}</h3>
+                </ok-stack>
+
+                {/* <form method="POST" action={`${Astro.url.pathname}/${slug}`}>
+                  <button type="submit" class="button">
+                    Finished
+                  </button>
+                </form> */}
+              </ok-stack>
+            </article>
+          </a>
+        ))
+      }
+    </ok-stack>
+  </div>
+</Layout>
+
+<style>
+  .app {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .button {
+    padding: 0.15rem 0.5rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 0.8rem;
+    max-height: 1.5rem;
+  }
+
+  .time {
+    font-size: 0.8rem;
+    color: #666;
+    display: block;
+  }
+
+  article {
+    border: 1px solid #ccc;
+    padding: 1rem;
+  }
+</style>
