@@ -1,6 +1,7 @@
+@import url("/reset.css");
 html {
-  font-family: system-ui, sans-serif;
-  background-size: 224px;
+  font-family: "Blackbird", system-ui, sans-serif;
+  font-size: 1.5rem;
   color: black;
 }
 
@@ -11,9 +12,8 @@ html {
 }
 
 :root {
-  --ok-spacing-6xl: calc(5 * var(--ok-base-root));
-  --ok-spacing-5xl: calc(4 * var(--ok-base-root));
-  --ok-spacing-4xl: calc(3.5 * var(--ok-base-root));
+  --ok-base-root: 1rem;
+
   --ok-spacing-3xl: calc(3 * var(--ok-base-root));
   --ok-spacing-2xl: calc(2.5 * var(--ok-base-root));
   --ok-spacing-xl: calc(2 * var(--ok-base-root));
@@ -23,8 +23,6 @@ html {
   --ok-spacing-xs: calc(0.5 * var(--ok-base-root));
   --ok-spacing-2xs: calc(0.25 * var(--ok-base-root));
   --ok-spacing-3xs: calc(0.125 * var(--ok-base-root));
-
-  --ok-base-root: 1rem;
 }
 
 ok-stack {
@@ -77,9 +75,7 @@ ok-stack[gap="2xs"] {
 ok-stack[gap="3xs"] {
   gap: var(--ok-spacing-3xs);
 }
-ok-stack[gap="2xl"] {
-  gap: var(--ok-spacing-2xl);
-}
+
 ok-stack[gap="none"] {
   gap: 0;
 }
@@ -160,4 +156,21 @@ ok-stack[justify="center"] {
 }
 ok-stack[justify="end"] {
   justify-content: end;
+}
+
+.ok-p-m {
+  padding: var(--ok-spacing-m);
+}
+.ok-py-m {
+  padding-block: var(--ok-spacing-m);
+}
+.ok-px-m {
+  padding-inline: var(--ok-spacing-m);
+}
+
+.px-m {
+  padding-inline: var(--ok-spacing-m);
+}
+.px-4xl {
+  padding-inline: var(--ok-spacing-4xl);
 }
