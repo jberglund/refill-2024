@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 
 import db from "@astrojs/db";
+import sectionize from "@hbsnow/rehype-sectionize";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +15,9 @@ export default defineConfig({
   },
   devToolbar: {
     enabled: false,
+  },
+  markdown: {
+    rehypePlugins: [],
   },
   integrations: [db()],
 });
